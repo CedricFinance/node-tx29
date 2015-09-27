@@ -1,0 +1,28 @@
+{
+  "name": "node-tx29",
+  "version": "0.1.0",
+  "description": "Decode data from jeenode-tx29",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/CedricFinance/node-tx29.git"
+  },
+  "keywords": [
+    "tx29",
+    "jeenode"
+  ],
+  "author": "Cédric Finance <cedric.finance@finandric.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CedricFinance/node-tx29/issues"
+  },
+  "homepage": "https://github.com/CedricFinance/node-tx29#readme",
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3",
+    "sinon": "^1.17.1"
+  }
+}
