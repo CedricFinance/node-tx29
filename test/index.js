@@ -4,16 +4,16 @@ var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
+var EventEmitter = require('events').EventEmitter;
+
 var NodeTx29 = require('../src/index');
 
 describe('NodeTx29', function() {
   var fakePort;
   var nodeTx29;
 
-  before(function() {
-    fakePort = {
-      on: function() {},
-    };
+  beforeEach(function() {
+    fakePort = new EventEmitter();
     nodeTx29 = new NodeTx29(fakePort);
   });
 
@@ -82,5 +82,24 @@ describe('NodeTx29', function() {
       expect(spy).to.have.been.calledWith({ error: 'Error' });
     });
 
+  });
+
+  describe('listening', function() {
+
+    it('should listen to the serial port "data" event', function() {
+      var stub = sinon.stub(nodeTx29, '_onRawData');
+
+      fakePort.emit('data', '');
+
+      expect(stub).to.have.been.called;
+    });
+
+    it('should listen to the serial port "error" event', function() {
+      var stub = sinon.stub(nodeTx29, '_onError');
+
+      fakePort.emit('error', '');
+
+      expect(stub).to.have.been.called;
+    });
   });
 });

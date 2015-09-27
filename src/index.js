@@ -3,6 +3,11 @@ var util = require('util');
 
 function Emitter(port) {
   EventEmitter.call(this);
+  var _this = this;
+
+  port.on('data', function(data) { _this._onRawData(data); });
+
+  port.on('error', function(data) { _this._onError(data); });
 }
 
 util.inherits(Emitter, EventEmitter);
