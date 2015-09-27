@@ -24,7 +24,12 @@ Emitter.prototype._parse = function(rawData) {
 };
 
 Emitter.prototype._onRawData = function(rawData) {
-  this.emit('data', this._parse(rawData));
+  var decoded = this._parse(rawData);
+  if (decoded.sensorId.length > 2) {
+    this.emit('invalid-data', decoded);
+  } else {
+    this.emit('data', decoded);
+  }
 };
 
 Emitter.prototype._onError = function(error) {

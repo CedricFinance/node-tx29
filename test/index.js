@@ -58,19 +58,6 @@ describe('NodeTx29', function() {
 
   describe('emitting', function() {
 
-    it('should emit decoded data', function() {
-      var parseMock = sinon.mock(nodeTx29);
-      var decodedData = { sensorId: '1C', temperature: 16 };
-      parseMock.expects('_parse').onFirstCall().returns(decodedData);
-
-      var spy = sinon.spy();
-      nodeTx29.on('data', spy);
-
-      nodeTx29._onRawData();
-
-      expect(spy).to.have.been.calledWith(decodedData);
-    });
-
     it('should emit errors', function() {
       var parseMock = sinon.mock(nodeTx29);
 
@@ -82,6 +69,63 @@ describe('NodeTx29', function() {
       expect(spy).to.have.been.calledWith({ error: 'Error' });
     });
 
+    describe('valid sensor data', function() {
+      var decodedData;
+      var spy;
+
+      beforeEach(function() {
+        var parseMock = sinon.mock(nodeTx29);
+        decodedData = { sensorId: '1C', temperature: 16 };
+        parseMock.expects('_parse').onFirstCall().returns(decodedData);
+      });
+
+      it('should emit decoded data', function() {
+        var spy = sinon.spy();
+        nodeTx29.on('data', spy);
+
+        nodeTx29._onRawData();
+
+        expect(spy).to.have.been.calledWith(decodedData);
+      });
+
+      it('should not emit invalid data', function() {
+        var spy = sinon.spy();
+        nodeTx29.on('invalid-data', spy);
+
+        nodeTx29._onRawData();
+
+        expect(spy).to.not.have.been.calledWith(decodedData);
+      });
+    });
+
+    describe('invalid sensor data', function() {
+      var decodedData;
+      var spy;
+
+      beforeEach(function() {
+        var parseMock = sinon.mock(nodeTx29);
+        decodedData = { sensorId: 'BAD', temperature: 16 };
+        parseMock.expects('_parse').onFirstCall().returns(decodedData);
+      });
+
+      it('should emit invalid data', function() {
+        var spy = sinon.spy();
+        nodeTx29.on('invalid-data', spy);
+
+        nodeTx29._onRawData();
+
+        expect(spy).to.have.been.calledWith(decodedData);
+      });
+
+      it('should not emit valid data', function() {
+        var spy = sinon.spy();
+        nodeTx29.on('data', spy);
+
+        nodeTx29._onRawData();
+
+        expect(spy).to.not.have.been.calledWith(decodedData);
+      });
+    });
   });
 
   describe('listening', function() {
