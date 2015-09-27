@@ -1,5 +1,5 @@
 {
-  "name": "node-tx29",
+  "name": "tx29",
   "version": "0.2.0",
   "description": "Decode data from jeenode-tx29",
   "main": "src/index.js",
