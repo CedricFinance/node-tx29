@@ -26,14 +26,14 @@ Emitter.prototype._parse = function(rawData) {
 Emitter.prototype._onRawData = function(rawData) {
   var decoded = this._parse(rawData);
   if (decoded.sensorId.length > 2) {
-    this.emit('invalid-data', decoded);
+    this.emit('status-invalid-data', decoded);
   } else {
-    this.emit('data', decoded);
+    this.emit('status-valid-data', decoded);
   }
 };
 
 Emitter.prototype._onError = function(error) {
-  this.emit('error', error);
+  this.emit('status-error', error);
 };
 
 module.exports = Emitter;
