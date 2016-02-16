@@ -62,7 +62,7 @@ describe('NodeTx29', function() {
       var parseMock = sinon.mock(nodeTx29);
 
       var spy = sinon.spy();
-      nodeTx29.on('error', spy);
+      nodeTx29.on('status-error', spy);
 
       nodeTx29._onError({ error: 'Error' });
 
@@ -81,7 +81,7 @@ describe('NodeTx29', function() {
 
       it('should emit decoded data', function() {
         var spy = sinon.spy();
-        nodeTx29.on('data', spy);
+        nodeTx29.on('status-valid-data', spy);
 
         nodeTx29._onRawData();
 
@@ -90,7 +90,7 @@ describe('NodeTx29', function() {
 
       it('should not emit invalid data', function() {
         var spy = sinon.spy();
-        nodeTx29.on('invalid-data', spy);
+        nodeTx29.on('status-invalid-data', spy);
 
         nodeTx29._onRawData();
 
@@ -110,7 +110,7 @@ describe('NodeTx29', function() {
 
       it('should emit invalid data', function() {
         var spy = sinon.spy();
-        nodeTx29.on('invalid-data', spy);
+        nodeTx29.on('status-invalid-data', spy);
 
         nodeTx29._onRawData();
 
@@ -119,7 +119,7 @@ describe('NodeTx29', function() {
 
       it('should not emit valid data', function() {
         var spy = sinon.spy();
-        nodeTx29.on('data', spy);
+        nodeTx29.on('status-valid-data', spy);
 
         nodeTx29._onRawData();
 
